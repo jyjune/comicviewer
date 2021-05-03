@@ -1,8 +1,9 @@
 <?
 //https://stackoverflow.com/questions/10179435/neater-way-to-find-and-display-image-file-from-zip-archive-with-php
 //https://www.php.net/manual/en/ziparchive.getfromindex.php
+include "config.php";
 
-$filename = "/volume2/Comics/" . $_GET[p_file];
+$filename = $CONFIG[local_base_dir] . $_GET[p_file];
 $index = $_GET[p_index];
 showimageIndex($filename, $index);
 

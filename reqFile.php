@@ -63,7 +63,7 @@ if ($newFilename != "") {
   $json['filepath'] = $basepath . $newFilename;
 
   $za = new ZipArchive();
-  $filepath = "/volume2/Comics/" . $json['filepath'];
+  $filepath = $CONFIG[local_base_dir] . $json['filepath'];
   $za->open($filepath);
   for ($i=0; $i<$za->numFiles;$i++) {
     $array = $za->statIndex($i);

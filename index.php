@@ -36,11 +36,12 @@ a:active { color: red; background-color: green; }
 </head>
 <body>
 <?
+include "config.php";
 include "reqUtils.php";
 
 // https://stackoverflow.com/questions/42348196/synology-access-from-web-directory-to-other-directory
 
-$dirBase = "/volume2/Comics/" . $_GET[p_dir];
+$dirBase = $CONFIG[local_base_dir] . $_GET[p_dir];
 $dirhandle = opendir($dirBase);
 while($filename = readdir($dirhandle)) {
   if (substr($filename, 0, 1) == "@") continue;
