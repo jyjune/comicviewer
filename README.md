@@ -9,6 +9,7 @@ Web-based zip-compressed comic viewer
 
 ## Features
 
+  * Support different page view depending on portrait or landscape mode.
   * Currently only zipped comic files are supported.
 
 ## Quick Start
