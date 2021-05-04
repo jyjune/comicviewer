@@ -100,13 +100,13 @@ class PageHandler extends UserInput {
       // if protrait height is too long
       imgWidth = this.ownerRect.width * 2;
       imgHeight = this.image.naturalHeight / this.image.naturalWidth * (this.ownerRect.width*2);
-      imgY0 = (this.ownerRect.height - this.imgHeight)/2;
+      imgY0 = (this.ownerRect.height - imgHeight)/2;
     } else {
       if (naturalImageRatio > this.ownerRectRatio && naturalImageRatio < 0.8)
         {
           imgWidth = this.ownerRect.width;
           imgHeight = this.image.naturalHeight / this.image.naturalWidth * this.ownerRect.width;
-          imgY0 = (this.ownerRect.height - this.imgHeight)/2;
+          imgY0 = (this.ownerRect.height - imgHeight)/2;
         } else {
           imgWidth = this.image.naturalWidth / this.image.naturalHeight * this.ownerRect.height;
           imgHeight = this.ownerRect.height;
@@ -136,7 +136,7 @@ class PageHandler extends UserInput {
   resetPageLayoutLandscape() {
     let naturalImageRatio = this.image.naturalWidth / this.image.naturalHeight;
 
-    let imgX0, imgX1;
+    let imgX0, imgX1, imgY0;
     let imgWidth = 0;
     let imgHeight = 0;
 
@@ -147,30 +147,76 @@ class PageHandler extends UserInput {
       imgHeight = this.image.naturalHeight / this.image.naturalWidth * this.ownerRect.width;
       imgX0 = (this.ownerRect.width - imgWidth)/2;
 
-      this.posCount = Math.ceil(imgHeight / this.ownerRect.height) + pageInfo.verticalMoveInc;
-      let deltaY = (imgHeight-this.ownerRect.height) / (this.posCount - 1);
-      for (let i=0; i<this.posCount; i++) {
-        this.posArray.push({x:imgX0, y:-i*deltaY});
+      if (pageInfo.verticalMoveInc == -1) {
+        this.posCount = 1;
+        if (naturalImageRatio > this.ownerRectRatio) {
+          imgWidth = this.ownerRect.width;
+          imgHeight = this.image.naturalHeight / this.image.naturalWidth * this.ownerRect.width;
+          imgY0 = (this.ownerRect.height - imgHeight)/2;
+          this.posArray.push({x:0, y:imgY0});
+        } else {
+          imgWidth = this.image.naturalWidth / this.image.naturalHeight * this.ownerRect.height;
+          imgHeight = this.ownerRect.height;
+          imgX0 = (this.ownerRect.width - imgWidth)/2;
+          this.posArray.push({x:imgX0, y:0});
+        }
+/*
+        this.posCount = 1;
+        if (naturalImageRatio > this.ownerRectRatio) {
+          imgWidth = this.image.naturalWidth / this.image.naturalHeight * this.ownerRect.height;
+          imgHeight = this.ownerRect.height;
+          imgX0 = (this.ownerRect.width - imgWidth)/2;
+          this.posArray.push({x:imgX0, y:0});
+        } else {
+          imgWidth = this.ownerRect.width;
+          imgHeight = this.image.naturalHeight / this.image.naturalWidth * this.ownerRect.width;
+
+          imgY0 = (this.ownerRect.height - imgHeight)/2;
+          this.posArray.push({x:0, y:imgY0});
+        }
+        */
+      } else {
+        this.posCount = Math.ceil(imgHeight / this.ownerRect.height) + pageInfo.verticalMoveInc;
+        let deltaY = (imgHeight-this.ownerRect.height) / (this.posCount - 1);
+        for (let i=0; i<this.posCount; i++) {
+          this.posArray.push({x:imgX0, y:-i*deltaY});
+        }
       }
     } else { // two pages in one image
-      imgWidth = this.ownerRect.width * 2;
-      imgHeight = this.image.naturalHeight / this.image.naturalWidth * (this.ownerRect.width*2);
-      let rowCount = Math.ceil(imgHeight / this.ownerRect.height) + pageInfo.verticalMoveInc;
-      this.posCount = rowCount * 2;
-      let deltaY = (imgHeight-this.ownerRect.height) / (rowCount - 1);
-
-      if (this.pageInfo.isRightToLeft()) { // i.e. Japanese
-        imgX0 = this.ownerRect.width*(-1);
-        imgX1 = 0;
+      if (pageInfo.verticalMoveInc == -1) {
+        this.posCount = 1;
+        if (naturalImageRatio > this.ownerRectRatio) {
+          imgWidth = this.ownerRect.width;
+          imgHeight = this.image.naturalHeight / this.image.naturalWidth * this.ownerRect.width;
+          imgY0 = (this.ownerRect.height - imgHeight)/2;
+          this.posArray.push({x:0, y:imgY0});
+        } else {
+          imgWidth = this.image.naturalWidth / this.image.naturalHeight * this.ownerRect.height;
+          imgHeight = this.ownerRect.height;
+          imgX0 = (this.ownerRect.width - imgWidth)/2;
+          this.posArray.push({x:imgX0, y:0});
+        }
       } else {
-        imgX0 = 0;
-        imgX1 = this.ownerRect.width*(-1);
-      }
-      for (let i=0; i<rowCount; i++) {
-        this.posArray.push({x:imgX0, y:-i*deltaY});
-      }
-      for (let i=rowCount; i<this.posCount; i++) {
-        this.posArray.push({x:imgX1, y:-(i-rowCount)*deltaY});
+        imgWidth = this.ownerRect.width * 2;
+        imgHeight = this.image.naturalHeight / this.image.naturalWidth * (this.ownerRect.width*2);
+
+        let rowCount = Math.ceil(imgHeight / this.ownerRect.height) + pageInfo.verticalMoveInc;
+        this.posCount = rowCount * 2;
+        let deltaY = (imgHeight-this.ownerRect.height) / (rowCount - 1);
+  
+        if (this.pageInfo.isRightToLeft()) { // i.e. Japanese
+          imgX0 = this.ownerRect.width*(-1);
+          imgX1 = 0;
+        } else {
+          imgX0 = 0;
+          imgX1 = this.ownerRect.width*(-1);
+        }
+        for (let i=0; i<rowCount; i++) {
+          this.posArray.push({x:imgX0, y:-i*deltaY});
+        }
+        for (let i=rowCount; i<this.posCount; i++) {
+          this.posArray.push({x:imgX1, y:-(i-rowCount)*deltaY});
+        }
       }
     }
     this.resetPageLayoutApply(imgWidth, imgHeight);

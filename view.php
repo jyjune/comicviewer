@@ -31,6 +31,7 @@ $v = time();
   <button id="btnEnableNav">Navigation</button>
   <button id="btnChangeDir">Direction</button>
   Vertical Move<br>
+  <button class="small_button" data-inc="-1">F</button>
   <button class="small_button" data-inc="0">+0</button>
   <button class="small_button" data-inc="1">+1</button>
   <button class="small_button" data-inc="2">+2</button>

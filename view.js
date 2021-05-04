@@ -76,8 +76,8 @@ function openMenu(e) {
   let dirLetter = pageInfo.direction == PageDirections.LeftToRight ? '➡️' : '⬅️';
   document.querySelector('#btnChangeDir').innerHTML = `Direction(${dirLetter})`;
 
-  document.querySelectorAll('#divMenu .small_button').forEach((btn, index) => {
-    if (index == pageInfo.verticalMoveInc) {
+  document.querySelectorAll('#divMenu .small_button').forEach((btn) => {
+    if (btn.getAttribute('data-inc') == pageInfo.verticalMoveInc) {
       btn.classList.add('selected');
     } else {
       btn.classList.remove('selected');
