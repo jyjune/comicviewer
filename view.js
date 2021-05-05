@@ -2,6 +2,9 @@
 // | Create
 // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 let pageInfo = new PageInfo();
+let pageHandler = new PageHandler('divPage', pageInfo);
+let pageBar = new PageBar('divPageBar', pageInfo);
+
 pageInfo.setOnPageChange(
   ( pFilename, pPageIndex, shouldStartAtFirstPosition, displayPageIndex, displayPageCount ) => {
     pageHandler.loadPage(pFilename, pPageIndex, shouldStartAtFirstPosition);
@@ -10,9 +13,6 @@ pageInfo.setOnPageChange(
     pageBar.draw();
   }
 );
-
-let pageHandler = new PageHandler('divPage', pageInfo);
-let pageBar = new PageBar('divPageBar', pageInfo);
 
 // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 // | Assign Event Listener
@@ -67,11 +67,19 @@ document.querySelector('#btnExit').addEventListener('click', e=>{
 });
 
 document.querySelector('#divMenuButton').addEventListener('click', e=>{
-  openMenu(e);
+  if (document.querySelector('#divMenu').classList.contains('active')) {
+    closeMenu(e);
+  } else {
+    openMenu(e);
+  }
 });
 
 function openMenu(e) {
-  document.querySelector('#divMenu').classList.toggle('active');
+  let menuButtonStyle = document.querySelector('#divMenuButton').style;
+  menuButtonStyle.width = '100%';
+  menuButtonStyle.height = '100%';
+
+  document.querySelector('#divMenu').classList.add('active');
   e.stopPropagation();
   let dirLetter = pageInfo.direction == PageDirections.LeftToRight ? '➡️' : '⬅️';
   document.querySelector('#btnChangeDir').innerHTML = `Direction(${dirLetter})`;
@@ -86,6 +94,10 @@ function openMenu(e) {
 }
 
 function closeMenu(e) {
+  let menuButtonStyle = document.querySelector('#divMenuButton').style;
+  menuButtonStyle.width = '80px';
+  menuButtonStyle.height = '80px';
+
   e.stopPropagation();
   document.querySelector('#divMenu').classList.remove('active');
 }

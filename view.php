@@ -1,9 +1,9 @@
-<?
+<?php
 $v = time();
 ?>
 <html>
 <head>
-<title>Comics</title>
+<title>Comic Viewer</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <link rel="shortcut icon" type="image/png" sizes="16x16" href="comics.png" />
 <link href="view.css?v=<?=$v?>" rel="stylesheet">

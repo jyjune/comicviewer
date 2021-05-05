@@ -19,8 +19,10 @@ class PageInfo {
   }
   
   load(which) {
-    fetch('reqFile.php?p_filepath=' + this.filename + '&p_which=' + which)
+    let path = 'reqFile.php?p_filepath=' + this.filename + '&p_which=' + which;
+    fetch(path)
       .then(response => response.json()).then(data => {
+		console.log(data);
         this.filename = data['filepath'];
         this.pageIndices = data['pageIndex'];
         this.sectionIndices = data['sectionPageIndex'];
@@ -36,7 +38,7 @@ class PageInfo {
           this.pageIndex = parseInt(data['page']);
         }
         this.needsPageChange(true);
-      }).catch(err => console.log(err));
+      }).catch(err => console.log(err, path));
   }
   
   needsPageChange(shouldStartAtFirstPosition) {
@@ -83,6 +85,7 @@ class PageInfo {
     + '&p_page=' + this.pageIndex
     + '&p_page_total=' + this.pageIndices.length
     + '&p_mode=lastpage';
+    //console.log(path);
 
     fetch(path)
       .then(response => response.json()).then(data => {
@@ -91,7 +94,8 @@ class PageInfo {
           let path = this.filename.substr(0, pos+1);
           window.location.href = 'index.php?p_dir=' + path;
         }
-      });
+      })
+      .catch(err => console.log(err));
   }
 
   toggleDirection() {

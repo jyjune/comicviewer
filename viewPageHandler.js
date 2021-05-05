@@ -58,7 +58,7 @@ class PageHandler extends UserInput {
   // | Image Load Event
   // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
   onImageError() {
-    alert('image load error');
+    alert('image load error:'+this.image.src);
   }
   
   onImageLoaded() {
@@ -160,21 +160,6 @@ class PageHandler extends UserInput {
           imgX0 = (this.ownerRect.width - imgWidth)/2;
           this.posArray.push({x:imgX0, y:0});
         }
-/*
-        this.posCount = 1;
-        if (naturalImageRatio > this.ownerRectRatio) {
-          imgWidth = this.image.naturalWidth / this.image.naturalHeight * this.ownerRect.height;
-          imgHeight = this.ownerRect.height;
-          imgX0 = (this.ownerRect.width - imgWidth)/2;
-          this.posArray.push({x:imgX0, y:0});
-        } else {
-          imgWidth = this.ownerRect.width;
-          imgHeight = this.image.naturalHeight / this.image.naturalWidth * this.ownerRect.width;
-
-          imgY0 = (this.ownerRect.height - imgHeight)/2;
-          this.posArray.push({x:0, y:imgY0});
-        }
-        */
       } else {
         this.posCount = Math.ceil(imgHeight / this.ownerRect.height) + pageInfo.verticalMoveInc;
         let deltaY = (imgHeight-this.ownerRect.height) / (this.posCount - 1);

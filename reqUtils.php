@@ -1,10 +1,11 @@
-<?
+<?php
 include "config.php";
 
 function loadFileData($filepath)
 {
+  global $CONFIG;
   $DATA = [];
-  $filepath = $CONFIG[local_base_dir] . $filepath . ".ini";
+  $filepath = $CONFIG['local_base_dir'] . $filepath . ".ini";
   if (file_exists($filepath)) {
     $data = file_get_contents($filepath);
     $dataLines = explode("\n", $data);
@@ -21,7 +22,8 @@ function loadFileData($filepath)
 
 function saveFileData($filepath, $DATA)
 {
-  $filepath = $CONFIG[local_base_dir] . $filepath . ".ini";
+  global $CONFIG;
+  $filepath = $CONFIG['local_base_dir'] . $filepath . ".ini";
   $data = "";
   foreach($DATA as $key=>$value) {
     $data .= $key . "=" . $value . "\n";

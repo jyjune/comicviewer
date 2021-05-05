@@ -3,7 +3,7 @@ include "config.php";
 
 $za = new ZipArchive();
 
-$filename = $CONFIG[local_base_dir] . $_GET[p_filename];
+$filename = $CONFIG['local_base_dir'] . $_GET['p_filename'];
 
 $za->open($filename);
 print_r($za);
